@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinecito</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: black;
+            /*background-color: #f4f4f4;
+            background-color: #6f2dbd;*/
+        }
+
+        header {
+
+            background-color: #00023B;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .nav {
+            
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            
+            /* margin: 0 15px;
+    padding: 10px 20px; /* Espaciado interno para que parezcan botones */
+    /*background-color: #05299e;  Color de fondo del botón */
+    /*border: 2px solid #f39c12;  Borde del botón */
+    /*border-radius: 25px;  Bordes redondeados */
+    /*transition: background-color 0.3s, color 0.3s;  Transición suave para hover */
+
+            transition: color 0.3s; */
+            font-size: 1rem;
+        }
+
+        .nav a:hover {
+            background-color: #f39c12; /* Cambia el color de fondo al pasar el ratón */
+            color: #05299e; /* Cambia el color del texto al pasar el ratón */
+        }
+
+        .button { 
+            cursor: pointer;
+            position: relative;
+            padding: 10px 24px;
+            font-size: 18px;
+            color: rgb(193, 163, 98);
+            border: 2px solid rgb(193, 163, 98);
+            border-radius: 34px;
+            background-color: transparent;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+            overflow: hidden;
+}
+
+        .button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 50px;
+            height: 50px;
+            border-radius: inherit;
+            scale: 0;
+            z-index: -1;
+            background-color: rgb(193, 163, 98);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+        .button:hover::before {
+            scale: 5;
+}
+
+        .button:hover {
+            color: #212121;
+            scale: 1.1;
+            box-shadow: 0 0px 20px rgba(193, 163, 98,0.4);
+}
+
+        .button:active {
+            scale: 1;
+}
+
+        .hero {
+            background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20230720/pngtree-empty-screen-in-a-3d-rendered-cinema-hall-image_3715653.jpg'); 
+            height: 800px; /* altura proporcional a la pantalla */
+            background-size: cover;
+            background-attachment: fixed; /* Hace que la imagen permanezca estática */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+}
+
+        .hero h1 {
+            font-size: 2.5em; /* Ajuste de tamaño */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero h2 {
+            font-size: 2.5em; /* Ajuste de tamaño */
+            color: yellow;
+        }
+
+        .hero h3 {
+            font-size: 3.5em; /* Ajuste de tamaño */
+            color: black;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 11);
+        }
+
+        .titulos {
+            color: white;
+        }
+
+        
+
+        /* Estilos para el carrusel */
+        .carousel {
+            position: relative;
+            width: 100%; /* Ajustar al 100% del contenedor */
+            max-width: 700px; /* Ajusta este valor al tamaño que prefieras */
+            height: 350px; /* Altura fija del carrusel */
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carousel-images {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 300%; /* Para que las imágenes se muestren una por una */
+        }
+
+        .carousel-images img {
+            height: auto; /* Las imágenes ocupan toda la altura del carrusel */
+            width: 100%;  /* Ajusta el ancho automáticamente según el tamaño natural de la imagen */
+            object-fit: cover; /* Asegura que las imágenes no se deformen */
+            border-radius: 10px;
+            flex-shrink: 0; /* Evita que se compriman las imágenes */
+        }
+
+        /* Botones de navegación */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            padding: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+        }
+
+        .carousel-button.left {
+            left: 10px;
+        }
+
+        .carousel-button.right {
+            right: 10px;
+        }
+
+        /* Indicadores de carrusel */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+
+        .carousel-indicators div {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .carousel-indicators .active {
+            background-color: #f39c12;
+        }
+
+        /* Card styles */
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px;
+        }
+
+        .card {
+            background: #05299e;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            width: 300px;
+            max-width: 90%; /* Limitar el ancho máximo */
+            transition: transform 0.3s;
+
+            perspective: 1000px;
+
+        }
+
+
+
+
+
+
+
+
+
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.999s;
+}
+
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.card-front {
+  background-color: #6A2C70;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  border: 10px solid #6A2C70;
+  border-radius: 10px;
+  justify-content: center;
+  font-size: 24px;
+  transform: rotateY(0deg);
+}
+
+.card-back {
+  background-color: #F08A5D;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  border: 10px solid #F08A5D;
+  border-radius: 10px;
+  justify-content: center;
+  font-size: 24px;
+  transform: rotateY(180deg);
+}
+
+
+
+
+
+
+
+
+
+
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            border-radius: 10px 10px 0 0;
+            width: 100%; /* Ajustar imagen al 100% del contenedor */
+            height: auto; /* Mantener proporciones */
+        }
+
+        .card h2 {
+            margin: 10px;
+            color: white;
+            font-size: 1.5rem; /* Ajuste de tamaño */
+        }
+
+        .card p {
+            margin: 10px;
+            color: white;
+            font-size: 1rem; /* Ajuste de tamaño */
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #00023B;
+            color: white;
+            position: relative;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #05299e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Estilo responsivo */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em; /* Tamaño de texto más pequeño en pantallas pequeñas */
+            }
+
+            .card {
+                width: 100%; /* Las cartas ocupan el 100% en pantallas pequeñas */
+                margin: 5px 0; /* Espaciado vertical */
+            }
+
+            .nav a {
+                font-size: 0.9rem; /* Tamaño de texto más pequeño en pantallas pequeñas */
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+<header>
+    <h1>Cinecito</h1>
+    <nav class="nav">
+        <a href="#now-showing" class="button">Ahora en cartelera</a>
+        <a href="#upcoming" class="button">Próximamente</a>
+        <a href="#about" class="button">Acerca de</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <h3>Bienvenido a Cinecito</h3>
+</div>
+
+
+<!-- Carrusel de películas -->
+<div class="carousel">
+    <div class="carousel-images">
+        <img src="https://moviecrazyplanet.com/wp-content/uploads/2024/06/Robot-Salvaje-003.jpg" alt="Robot Salvaje">
+        <img src="https://phantom-marca-mx.unidadeditorial.es/ad01758e6498a8141ddce1400ab9bc7f/resize/828/f/jpg/mx/assets/multimedia/imagenes/2024/04/10/17127191066981.jpg" alt="Guason 2">
+        <img src="https://peru21-pe.b-cdn.net/sites/default/efsfiles/2024-07/bb6j3oxzkfd7thf746tmvnrkby.png" alt="No Te Sueltes">
+    </div>
+    <button class="carousel-button left" id="prevBtn">&#10094;</button>
+    <button class="carousel-button right" id="nextBtn">&#10095;</button>
+    <div class="carousel-indicators">
+        <div class="active"></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+
+
+<section id="now-showing" class="card-container">
+    <h4 class="titulos" style="text-align:center;" >Ahora en Cartelera</h4>
+    <div class="card">
+        <div class="card-inner">
+    <div class="card-front">
+        <a href="pelicula1.html">
+                <img src="https://www.universalpictures.com.mx/tl_files/content/movies/wild_robot/posters/02.jpg" alt="Robot Salvaje">
+                <h2>Robot Salvaje</h2>
+            </a>
+            </div>
+            <div class="card-back">
+
+                <a href="pelicula1.html">
+
+                <img src="https://www.universalpictures.com.mx/tl_files/content/movies/wild_robot/posters/01.jpg" alt="Robot Salvaje">
+                </a>
+
+
+      
+    </div>
+    </div>
+        <p></p>
+    </div>
+
+
+
+    <div class="card">
+        <a href="pelicula2.html">
+        <img src="https://static.cinepolis.com/resources/mx/movies/posters/414x603/47295-257200-20240830021809.jpg" alt="No te sueltes">
+        <h2>No te sueltes</h2>
+        <p></p>
+    </div>
+    <div class="card">
+        <a href="pelicula3.html">
+        <img src="https://static.cinepolis.com/resources/mx/movies/posters/414x603/47342-836069-20240905011458.jpg" alt="Compasion Por El Diablo">
+        <h2>Compasion Por El Diablo</h2>
+        <p></p>
+    </div>
+        </a>
+</section>
+
+<section id="upcoming" class="card-container">
+    <h4 class="titulos" style="text-align:center;">Próximamente</h4>
+    <div class="card">
+        <a href="pelicula4.html">
+        <img src="https://cinepolis.com/_next/image?url=https%3A%2F%2Ftickets-static-content.cinepolis.com%2Fresources%2Fmx%2Fmovies%2Fstop-making-sense%2FPOSTER%2F720X1022%2Fstop-making-sense.png&w=1920&q=75" alt="Contrato Para Matar">
+        <h2>Stop Making Sense</h2>
+        <p></p>
+ </div>
+    <div class="card">
+        <a href="pelicula5.html">
+        <img src="https://imagenes.passline.com/eventos/joker-folie-a-deux-guason-2-doblada-jueves-3-a-las-1640-hrs-308524-min.jpg" alt="Guason 2">
+        <h2>Guason 2: Folie A Deux</h2>
+        <p></p>
+    </div>
+    <div class="card">
+        <a href="pelicula6.html">
+        <img src="https://static.cinepolis.com/resources/mx/movies/posters/414x603/47406-317646-20240911122023.jpg" alt="El Asesino Del Juego De Las Cartas">
+        <h2>El Asesino Del Juego De Citas</h2>
+        <p></p>
+    </div>
+        </a>
+</section>
+
+<footer id="about">
+    <p>© 2024 Cinecito. Todos los derechos reservados.</p>
+</footer>
+
+<button class="scroll-top" id="scrollTopBtn">↑</button>
+
+
+<script>
+    // Carrusel de imágenes
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.carousel-images img');
+    const totalImages = images.length;
+    const indicators = document.querySelectorAll('.carousel-indicators div');
+
+    function updateCarousel() {
+        const offset = -currentIndex * 100;
+        document.querySelector('.carousel-images').style.transform = `translateX(${offset}%)`;
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % totalImages;
+        updateCarousel();
+    }
+
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+        updateCarousel();
+    }
+
+    // Botones de navegación
+    document.getElementById('nextBtn').addEventListener('click', nextImage);
+    document.getElementById('prevBtn').addEventListener('click', prevImage);
+
+    // Transición automática
+    setInterval(nextImage, 5000);
+
+    // Indicadores manuales
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            currentIndex = index;
+            updateCarousel();
+        });
+    });
+
+    // Scroll to top button
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    
+    window.onscroll = function() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollTopBtn.style.display = "block";
+        } else {
+            scrollTopBtn.style.display = "none";
+        }
+    };
+
+    scrollTopBtn.onclick = function() {
+        document.body.scrollTop = 0; // Para Safari
+        document.documentElement.scrollTop = 0; // Para Chrome, Firefox, IE y Opera
+    };
+</script>
+
+</body>
+</html>

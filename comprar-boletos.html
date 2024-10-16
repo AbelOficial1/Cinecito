@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra de Boletos - Cinecito</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: black;
+            color: #333;
+        }
+
+        header {
+            background-color: #00023B;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #f39c12;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 100);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        select, input[type="number"], input[type="date"], input[type="submit"], button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"], button {
+            background-color: #f39c12;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover, button:hover {
+            background-color: #e67e22;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #00023B;
+            color: white;
+            position: relative;
+        }
+
+        .summary {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .summary h3 {
+            margin: 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Compra de Boletos</h1>
+</header>
+
+<div class="content">
+    <h2>Selecciona tu película</h2>
+
+    <form id="ticket-form">
+        <label for="movie">Película:</label>
+        <select id="movie" name="movie" required>
+            <option value="Robot Salvaje">Robot Salvaje</option>
+            <option value="No Te Sueltes">No te Sueltes</option>
+            <option value="Compasion Por El Diablo">Compasion Por El Diablo</option>
+            <option value="Stop Making Sense">Stop Making Sense</option>
+            <option value="Guason 2">Guason 2</option>
+            <option value="El Asesino Del Juego De Las Citas">El Asesino Del Juego De Las Citas</option>
+        </select>
+
+        <label for="date">Fecha:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="time">Hora:</label>
+        <select id="time" name="time" required>
+            <option value="13:00">13:00</option>
+            <option value="16:00">16:00</option>
+            <option value="19:00">19:00</option>
+            <option value="21:00">21:00</option>
+        </select>
+
+        <label for="tickets">Cantidad de boletos:</label>
+        <input type="number" id="tickets" name="tickets" min="1" max="10" value="1" required>
+
+        <div class="summary" id="summary">
+            <h3>Resumen:</h3>
+            <p><strong>Película:</strong> <span id="summary-movie">Robot Salvaje</span></p>
+            <p><strong>Fecha:</strong> <span id="summary-date">-</span></p>
+            <p><strong>Hora:</strong> <span id="summary-time">13:00</span></p>
+            <p><strong>Cantidad de boletos:</strong> <span id="summary-tickets">1</span></p>
+            <p><strong>Total:</strong> <span id="total-price">$100</span></p>
+        </div>
+
+        <input type="submit" value="Confirmar Compra">
+    </form>
+
+    <div class="back-to-home">
+        <button onclick="window.location.href='Cinecito.html'">Regresar a la Página Principal</button>
+    </div>
+</div>
+
+<footer id="about">
+    <h3>© 2024 Cinecito. Todos los derechos reservados.</h3>
+</footer>
+
+<script>
+    // Variables de precios
+    const ticketPrice = 100;
+
+    // Elementos del formulario y resumen
+    const movieSelect = document.getElementById('movie');
+    const dateInput = document.getElementById('date');
+    const timeSelect = document.getElementById('time');
+    const ticketsInput = document.getElementById('tickets');
+
+    const summaryMovie = document.getElementById('summary-movie');
+    const summaryDate = document.getElementById('summary-date');
+    const summaryTime = document.getElementById('summary-time');
+    const summaryTickets = document.getElementById('summary-tickets');
+    const totalPrice = document.getElementById('total-price');
+
+    // Actualizar resumen en tiempo real
+    function updateSummary() {
+        const movie = movieSelect.value;
+        const date = dateInput.value;
+        const time = timeSelect.value;
+        const tickets = ticketsInput.value;
+
+        summaryMovie.textContent = movie;
+        summaryDate.textContent = date ? date : '-';
+        summaryTime.textContent = time;
+        summaryTickets.textContent = tickets;
+        totalPrice.textContent = '$' + (tickets * ticketPrice);
+    }
+
+    // Escuchar cambios en el formulario
+    movieSelect.addEventListener('change', updateSummary);
+    dateInput.addEventListener('input', updateSummary);
+    timeSelect.addEventListener('change', updateSummary);
+    ticketsInput.addEventListener('input', updateSummary);
+
+    // Enviar formulario
+    document.getElementById('ticket-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        alert('¡Compra realizada con éxito!');
+        window.location.href = 'Cinecito.html';
+    });
+</script>
+
+</body>
+</html>
